@@ -15,11 +15,14 @@ while(True):
     response = http.request('GET', URL)
     data = xmltodict.parse(response.data)
 
-    # dig down to find the temperature - updated by the minute
+    # dig down the XML tree to find the temperature - updated by the minute
     observations = data['om:ObservationCollection']['om:member']['om:Observation']['om:result']['elements']['element']
 
-    # there are also three observations called air_temp_1{2,3}
-    # not sure what they're for but let's record them
+    # This particular weather station has three temperature sensors.
+    # I found a French PDF online about this model and an auto-translation
+    # states the three readings are sent to the "Data Management System" which
+    # processes them and records an official temperature.
+    # In the XML these are the properties air_temp and air_temp_{1,2,3}
     three_temps = []
     for o in observations:
         if o['@name'] == 'air_temp': current_temp = o['@value']
