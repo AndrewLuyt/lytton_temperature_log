@@ -9,6 +9,7 @@ to_f <- function(c) {
 # just grab the CSV and convert the UTC time to local
 lytton = read_csv("../lytton_log.csv")
 lytton$datetime <- as_datetime(lytton$datetime, tz="America/Vancouver")
+lytton <- distinct(lytton)
 
 lastrow <- lytton[length(lytton$official_temp),]
 maxrow <- lytton[min(which(lytton$official_temp == max(lytton$official_temp))),]
@@ -26,6 +27,9 @@ plot1 <- ggplot(data=lytton, aes(x=datetime, y=official_temp)) +
   labs(title = 'Temperature in Lytton B.C.', x = 'Local Time', y='Temp (Celsius)')
 
 # how hot is it today vs yesterday, minute-by-minute?  Just join on exact times.
+# There are numerous non-matching times so it might be "better" to cut() the
+# data into e.g. 5-minute intervals and take a mean for each group...
+# but no. Keep it simple.
 library(data.table)
 lytton$time <- as.ITime(lytton$datetime)
 yesterday <- lytton %>% filter(day(datetime) == 28)
