@@ -1,3 +1,9 @@
+# Plot a line graph of minute-by-minute temperatures in Lytton,
+# and a density plot of the minute-to-minute difference in temperature
+# on June 29 vs June 28.
+# Andrew Luyt
+# 29 June 2021
+
 library(tidyverse)
 library(lubridate)
 library(gridExtra)  # to arrange multiple ggplots in the same window
@@ -20,9 +26,9 @@ plot1 <- ggplot(data=lytton, aes(x=datetime, y=official_temp)) +
   geom_label(data = maxrow, mapping = aes(x=datetime, y=official_temp),
              label=maxrow$official_temp,
              position=position_nudge(y=1)) +
-  geom_label(data = lastrow, mapping = aes(x=datetime, y=official_temp),
-             label=lastrow$official_temp,
-             position=position_nudge(y=1)) +
+  # geom_label(data = lastrow, mapping = aes(x=datetime, y=official_temp),
+  #            label=lastrow$official_temp,
+  #            position=position_nudge(y=1)) +
   scale_x_datetime(timezone = "America/Vancouver") +
   labs(title = 'Temperature in Lytton B.C.', x = 'Local Time', y='Temp (Celsius)')
 
