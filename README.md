@@ -16,3 +16,9 @@ is the "official" temperature.  This script saves them all.
 The data isn't updated at **exactly** 60 second intervals as sometimes
 observations are repeated - fix that in the data processing step.  Real-world data is dirty :)
 
+There is some R code to plot two graphs:
+
+1. Minute-by-minute temperatures over the entire dataset
+2. The distribution of temperature **differences** between June 29 and 28. The temperatures on the two
+   days are joined on the hour & minute. Any non-matching times (from incomplete data) are discarded.
+
