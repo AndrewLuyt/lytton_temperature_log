@@ -12,17 +12,14 @@ lytton$datetime <- as_datetime(lytton$datetime, tz="America/Vancouver")
 
 lastrow <- lytton[length(lytton$official_temp),]
 maxrow <- lytton[min(which(lytton$official_temp == max(lytton$official_temp))),]
-# high_temp_f <- to_f(lastrow$official_temp)
-
+#
 plot1 <- ggplot(data=lytton, aes(x=datetime, y=official_temp)) +
   geom_line() +
   geom_point(data=maxrow, mapping=aes(x=datetime, y=official_temp)) +
   geom_label(data = maxrow, mapping = aes(x=datetime, y=official_temp),
-             # label=paste(lastrow$official_temp," (", high_temp_f, ")"),
              label=maxrow$official_temp,
              position=position_nudge(y=1)) +
   geom_label(data = lastrow, mapping = aes(x=datetime, y=official_temp),
-             # label=paste(lastrow$official_temp," (", high_temp_f, ")"),
              label=lastrow$official_temp,
              position=position_nudge(y=1)) +
   scale_x_datetime(timezone = "America/Vancouver") +
@@ -35,7 +32,8 @@ yesterday <- lytton %>% filter(day(datetime) == 28)
 today <- lytton %>% filter(day(datetime) == 29)
 compared <- inner_join(today, yesterday, by="time")
 compared <- compared %>%
-  mutate(temp_diff = official_temp.x - official_temp.y)
+  mutate(temp_diff = official_temp.x - official_temp.y) %>%
+  distinct()
 
 plot2 <- ggplot(compared, aes(temp_diff)) +
   geom_density(size=1) +
