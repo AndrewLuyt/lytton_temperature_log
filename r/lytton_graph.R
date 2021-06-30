@@ -19,10 +19,10 @@ lytton <- distinct(lytton)
 
 lastrow <- lytton[length(lytton$official_temp),]
 maxrow <- lytton[min(which(lytton$official_temp == max(lytton$official_temp))),]
-#
+
 plot1 <- ggplot(data=lytton, aes(x=datetime, y=official_temp)) +
   geom_line() +
-  geom_point(data=maxrow, mapping=aes(x=datetime, y=official_temp)) +
+  geom_point(data=maxrow, mapping=aes(x=datetime, y=official_temp), col='red', size=3) +
   geom_label(data = maxrow, mapping = aes(x=datetime, y=official_temp),
              label=maxrow$official_temp,
              position=position_nudge(y=1)) +
