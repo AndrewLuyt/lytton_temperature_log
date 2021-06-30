@@ -25,3 +25,4 @@ There is some R code to plot two graphs:
 2. The *distribution* of temperature *differences* between June 29 and 28. The temperatures on the two
    days are joined on the hour & minute. Any non-matching times (from incomplete data) are discarded.
 
+![Two graphs. One displays the minute-to-minute temperature in Lytton BC, where the high temperature is 49.5 Celsius. The second displays a non-normal density plot of how the temperatures differed between two days.](./r/Rplot.png)
