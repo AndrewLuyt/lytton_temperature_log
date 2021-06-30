@@ -8,10 +8,6 @@ library(tidyverse)
 library(lubridate)
 library(gridExtra)  # to arrange multiple ggplots in the same window
 
-to_f <- function(c) {
-  c * 1.8 + 32
-}
-
 # just grab the CSV and convert the UTC time to local
 lytton = read_csv("../lytton_log.csv")
 lytton$datetime <- as_datetime(lytton$datetime, tz="America/Vancouver")
@@ -25,7 +21,7 @@ plot1 <- ggplot(data=lytton, aes(x=datetime, y=official_temp)) +
   geom_point(data=maxrow, mapping=aes(x=datetime, y=official_temp), col='red', size=3) +
   geom_label(data = maxrow, mapping = aes(x=datetime, y=official_temp),
              label=maxrow$official_temp,
-             position=position_nudge(y=1)) +
+             position=position_nudge(y=1.5)) +
   # geom_label(data = lastrow, mapping = aes(x=datetime, y=official_temp),
   #            label=lastrow$official_temp,
   #            position=position_nudge(y=1)) +
@@ -36,8 +32,8 @@ plot1 <- ggplot(data=lytton, aes(x=datetime, y=official_temp)) +
 # There are numerous non-matching times so it might be "better" to cut() the
 # data into e.g. 5-minute intervals and take a mean for each group...
 # but no. Keep it simple.
-library(data.table)
-lytton$time <- as.ITime(lytton$datetime)
+library(data.table)  # for as.ITime()
+lytton$time <- as.ITime(lytton$datetime)  # remove the date portion
 yesterday <- lytton %>% filter(day(datetime) == 28)
 today <- lytton %>% filter(day(datetime) == 29)
 compared <- inner_join(today, yesterday, by="time")
